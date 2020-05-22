@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/css.css" />
+    <title>Atividade Modulo 01</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <span>(R) Vermelho:</span>
+        <input type="range" id="red" min="0" max="255" class="range" />
+        <input type="text" id="inputred" disabled />
+      </div>
+      <div class="row">
+        <span>(G) Verde:</span>
+        <input type="range" id="green" min="0" max="255" class="range" />
+        <input type="text" id="inputgreen" disabled />
+      </div>
+      <div class="row">
+        <span>(b) Azul:</span>
+        <input type="range" id="blue" min="0" max="255" class="range" />
+        <input type="text" id="inputblue" disabled />
+      </div>
+    </div>
+    <div class="container palette" style="background-color: black;"></div>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
