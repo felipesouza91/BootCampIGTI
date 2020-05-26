@@ -1,14 +1,15 @@
-window.addEventListener("load", start);
 var listNames = [];
-function start() {
-  var form = document.querySelector("form");
-  var ul = document.querySelector("ul");
-  var input = document.querySelector("#name");
+var inputName = document.querySelector("#name");
+var form = document.querySelector("form");
+var ul = document.querySelector("ul");
+var input = document.querySelector("#name");
 
+window.addEventListener("load", () => {
   ul.addEventListener("click", clickList);
   form.addEventListener("submit", preventSubmit);
   input.addEventListener("keyup", onInputPressKey);
-}
+});
+
 function preventSubmit(event) {
   event.preventDefault();
 }
@@ -21,30 +22,27 @@ function onInputPressKey(event) {
 }
 
 function save(value) {
-  var inputName = document.querySelector("#name");
   const id = inputName.getAttribute("data-id");
   if (id && id !== null) {
     listNames[id] = value;
   } else {
     listNames.push(value);
   }
-
   clearInput();
 }
 function clearInput() {
-  var inputName = document.querySelector("#name");
   inputName.value = "";
   inputName.removeAttribute("data-id");
 }
 
 function renderList() {
-  var list = document.querySelector("ul");
-  list.innerHTML = "";
-  for (var i = 0; i < listNames.length; i++) {
+  ul.innerHTML = "";
+  clearInput();
+  listNames.forEach((item, i) => {
     var button = createButtonElement(i);
-    var li = createLiElement(i, listNames[i], button);
-    list.appendChild(li);
-  }
+    var li = createLiElement(i, item, button);
+    ul.appendChild(li);
+  });
 }
 
 function createLiElement(id, name, button) {
@@ -65,14 +63,17 @@ function createButtonElement(id) {
 
 function clickList(event) {
   const id = event.target.id;
-  var input = document.querySelector("#name");
-  input.setAttribute("data-id", id);
-  input.value = listNames[id];
+  if (id) {
+    inputName.setAttribute("data-id", id);
+    inputName.value = listNames[id];
+  } else {
+    inputName.value = "";
+  }
 }
 
 function onRemove(event) {
-  console.log(event.target.attributes);
   var id = event.target.attributes[0].value;
   listNames.splice(id, 1);
+  clearInput();
   renderList();
 }
