@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desafio Final</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Pesquisa de usuario
+          </h1>
+        </div>
+      </div>
+    </header>
+    <section class="container">
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <label class="label" for="inputFilter">From</label>
+            <div class="field is-grouped">
+              <div class="control is-expanded">
+                <input
+                  class="input"
+                  type="text"
+                  id="inputFilter"
+                  placeholder="Find a repository"
+                />
+              </div>
+              <p class="control">
+                <a class="button is-info">
+                  Search
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns is-padding">
+        <div class="column is-border">
+          <div class="tile">
+            <h2 class="title">Lista de usuario</h2>
+          </div>
+          <div id="list"></div>
+        </div>
+        <div class="column is-border">
+          <div class="tile">
+            <h2 class="title">Estatisticas</h2>
+          </div>
+          <div id="statics"></div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
