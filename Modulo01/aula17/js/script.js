@@ -29,6 +29,9 @@ window.addEventListener('load', () => {
 });
 
 function render() {
+  sortArrays();
+  tabCountry.innerHTML = '';
+  tabFavorites.innerHTML = '';
   renderTabCountry();
   renderTabFavorites();
   renderCountrySumary();
@@ -37,33 +40,94 @@ function render() {
 
 function renderTabCountry() {
   var divGlobal = document.createElement('div');
+  divGlobal.innerHTML = '';
   allCountrys.forEach((country) => {
-    var button = createButton(country.id);
-    var div = createDiv();
-    var img = document.createElement('img');
-    var span = document.createElement('span');
-    span.textContent = country.name;
-    img.setAttribute('src', country.flag);
-    div.appendChild(button);
-    div.appendChild(img);
-    div.appendChild(span);
-
+    var div = createDiv(country);
     divGlobal.appendChild(div);
   });
   tabCountry.appendChild(divGlobal);
 }
 
+function renderTabFavorites() {
+  var divGlobal = document.createElement('div');
+  favoritesCountrys.forEach((country) => {
+    var div = createDiv(country, false);
+    divGlobal.appendChild(div);
+  });
+  tabFavorites.appendChild(divGlobal);
+}
+
 function renderCountrySumary() {
   countCountry.textContent = allCountrys.length;
-
   totalPopulationList.textContent = numberFormat.format(
     allCountrys.reduce((total, country) => country.population + total, 0)
   );
 }
 
-function renderTabFavorites() {}
+function renderFavoriteSumary() {
+  countFavorites.textContent = favoritesCountrys.length;
+  totalPopulationFavorites.textContent = numberFormat.format(
+    favoritesCountrys.reduce((total, country) => country.population + total, 0)
+  );
+}
 
-function renderFavoriteSumary() {}
+function createCountryInfo(name, population) {
+  var div = document.createElement('div');
+  var ul = document.createElement('ul');
+  var liName = document.createElement('li');
+  var liPopulation = document.createElement('li');
+  liName.textContent = name;
+  liPopulation.textContent = numberFormat.format(population);
+  ul.appendChild(liName);
+  ul.appendChild(liPopulation);
+  div.appendChild(ul);
+  return div;
+}
+
+function createDiv(country, isAdd = true) {
+  var div = document.createElement('div');
+  var button = createAddButton(country.id, isAdd);
+  var img = document.createElement('img');
+  var countryInfoUl = createCountryInfo(country.name, country.population);
+  div.setAttribute('class', 'country');
+  img.setAttribute('src', country.flag);
+  img.setAttribute('alt', country.name);
+  div.appendChild(button);
+  div.appendChild(img);
+  div.appendChild(countryInfoUl);
+  return div;
+}
+
+function createAddButton(id, isAdd) {
+  var button = document.createElement('a');
+  button.setAttribute('id', id);
+  if (isAdd) {
+    button.setAttribute('class', 'waves-effect waves-light btn');
+    button.addEventListener('click', addCountry);
+    button.textContent = '+';
+  } else {
+    button.setAttribute('class', 'waves-effect waves-light btn red');
+    button.addEventListener('click', removeCountry);
+    button.textContent = '-';
+  }
+  return button;
+}
+
+function addCountry(event) {
+  var id = event.target.id;
+  var index = allCountrys.findIndex((country) => country.id === id);
+  favoritesCountrys.push(allCountrys[index]);
+  allCountrys.splice(index, 1);
+  render();
+}
+
+function removeCountry(event) {
+  var id = event.target.id;
+  var index = favoritesCountrys.findIndex((country) => country.id === id);
+  allCountrys.push(favoritesCountrys[index]);
+  favoritesCountrys.splice(index, 1);
+  render();
+}
 
 async function fetchCountries() {
   const listServer = await (
@@ -79,19 +143,15 @@ async function fetchCountries() {
       flag,
     };
   });
+
   render();
 }
 
-function createDiv() {
-  var div = document.createElement('div');
-  div.setAttribute('class', 'country');
-  return div;
-}
-
-function createButton(id) {
-  var button = document.createElement('a');
-  button.setAttribute('class', 'waves-effect waves-light btn');
-  button.setAttribute('id', id);
-  button.textContent = '+';
-  return button;
+function sortArrays() {
+  allCountrys.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
+  favoritesCountrys.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+  });
 }
