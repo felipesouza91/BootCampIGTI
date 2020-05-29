@@ -39,7 +39,7 @@
                 />
               </div>
               <p class="control">
-                <a class="button is-info">
+                <a class="button is-info" id="submitButton" disabled>
                   Search
                 </a>
               </p>
@@ -50,18 +50,22 @@
 
       <div class="columns is-padding">
         <div class="column is-border">
-          <div class="tile">
-            <h2 class="title">Lista de usuario</h2>
+          <div class="tile app-tile">
+            <h2 class="title is-3" id="finderTitle">Nenhum usuario filtrado</h2>
           </div>
-          <div id="list"></div>
+          <div id="list">
+            
+          </div>
         </div>
         <div class="column is-border">
           <div class="tile">
-            <h2 class="title">Estatisticas</h2>
+            <h2 class="title is-3" id="statisticsTitle">Nada a ser exibido</h2>
           </div>
           <div id="statics"></div>
         </div>
       </div>
     </section>
+
+    <script src="./js/script.js"></script>
   </body>
 </html>

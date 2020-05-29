@@ -1,3 +1,4 @@
+
 .content {
   margin-top: 45px;
 }
@@ -14,4 +15,13 @@
 
 .is-padding > .column {
   margin: 0.75rem;
+}
+
+.app-tile {
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.app-background {
+  background-color: #dcd9de;
 }
