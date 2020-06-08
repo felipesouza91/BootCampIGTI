@@ -35,6 +35,23 @@ function estadosComMenosCidades() {
   return maiores;
 }
 
+function cidadeDeMaiorNomePorEstado() {
+  let cidades = [];
+  Estados.forEach(function (estado) {
+    const { data } = cidadesPorEstado(estado.Sigla);
+    const cidadeOrder = data
+      .sort((a, b) => b.Nome.length - a.Nome.length)
+      .sort((a, b) => b.Nome - a.Nome);
+
+    cidades.push(cidadeOrder[0]);
+  });
+
+  return cidades
+    .sort((a, b) => b.Nome.length - a.Nome.length)
+    .sort((a, b) => b.Nome - a.Nome);
+}
+
 cidadesPorEstado();
 console.log(estadosComMaisCidades());
 console.log(estadosComMenosCidades());
+console.log(cidadeDeMaiorNomePorEstado());
