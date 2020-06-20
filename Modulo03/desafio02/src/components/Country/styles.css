@@ -1,0 +1,18 @@
+.country-container {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  align-content: center;
+  margin-top: 10px;
+  width: 200px;
+  padding: 15px;
+  border: 1px solid #000;
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.country-container > img {
+  width: 70px;
+  height: 50px;
+  margin-bottom: 10px;
+}

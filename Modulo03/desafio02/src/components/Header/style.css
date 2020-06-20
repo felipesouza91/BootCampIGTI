@@ -1,0 +1,10 @@
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inputRow {
+  width: 300px !important;
+}
