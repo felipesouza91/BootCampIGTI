@@ -1,0 +1,14 @@
+.input-salary {
+  margin-top: 50px;
+}
+
+.results-inputs {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.bar-container {
+  display: flex;
+}
