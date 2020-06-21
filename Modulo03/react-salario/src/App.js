@@ -54,7 +54,7 @@ export default class App extends Component {
     );
     return (
       <div className="container">
-        <h1>React Salario</h1>
+        <h1>React Salário</h1>
         <div className="row">
           <div className="input-salary">
             <InputFullSalary
