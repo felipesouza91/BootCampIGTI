@@ -1,0 +1,19 @@
+.result-container {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+.id-container {
+  padding: 10px;
+  font-weight: bold;
+}
+
+.info-name {
+  display: flex;
+  flex-direction: column;
+}
