@@ -7,6 +7,18 @@ const AccountController = {
     return res.json(result);
   },
 
+  async mediumAgencia(req, res) {
+    const { agencia } = req.body;
+    if (!agencia) {
+      return res.status(400).json({
+        error: 'Informe os campos obrigatorios: agencia',
+      });
+    }
+    const result = await AccountShema.find({ agencia });
+    console.log(result);
+    return res.json(result);
+  },
+
   async save(req, res) {
     const { agencia, conta, name, balance } = req.body;
     try {
@@ -82,6 +94,45 @@ const AccountController = {
     }
 
     return res.json(account.balance);
+  },
+
+  async transfer(req, res) {
+    const { contaOrigem, contaDestino, valor } = req.body;
+    if (!contaOrigem || !contaDestino || !valor) {
+      return res.status(400).json({
+        error:
+          'Informe os campos obrigatorios: conta de origem, conta de destino, valor',
+      });
+    }
+    const accountOrigin = await AccountShema.findOne({ conta: contaOrigem });
+    const accountSender = await AccountShema.findOne({ conta: contaDestino });
+    if (!accountOrigin || !accountSender) {
+      return res.status(400).json({
+        error: 'A conta informada não foi encontrada',
+      });
+    }
+    if (accountOrigin.agencia !== accountSender.agencia) {
+      if (accountOrigin.balance - valor + 8 < 0) {
+        return res.status(400).json({
+          error:
+            'A conta informada não possui saldo o suficiente para a retirada',
+        });
+      }
+      accountOrigin.balance -= valor + 8;
+      accountSender.balance += valor;
+    } else {
+      if (accountOrigin.balance - valor < 0) {
+        return res.status(400).json({
+          error:
+            'A conta informada não possui saldo o suficiente para a retirada',
+        });
+      }
+      accountOrigin.balance -= valor;
+      accountSender.balance += valor;
+    }
+    accountOrigin.save();
+    accountSender.save();
+    return res.json({ balanceOrigin: accountOrigin.balance });
   },
 
   async delete(req, res) {

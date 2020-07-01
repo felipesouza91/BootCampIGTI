@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../node_modules/materialize-css/dist/css/materialize.min.css';
 import '../node_modules/materialize-css/dist/js/materialize.min.js';
-import Form from './components/Form';
-
 import Installments from './components/Installments';
 
 function App() {
