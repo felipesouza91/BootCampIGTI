@@ -2,7 +2,7 @@ import express from 'express';
 import fs from 'fs';
 import winston from 'winston';
 import router from './routes.js';
-
+import cors from 'cors';
 const { combine, timestamp, label, printf } = winston.format;
 var myFormat = printf(({ level, message, label, timestamp }) => {
   return `${timestamp} - {${label}} - ${level}: ${message}`;
@@ -24,6 +24,7 @@ global.logger = winston.createLogger({
 });
 
 var app = express();
+app.use(cors());
 app.use(express.json());
 app.use('/grades', router);
 

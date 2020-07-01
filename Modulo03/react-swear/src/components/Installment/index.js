@@ -6,12 +6,10 @@ function Installment({ value, isNegative }) {
   const formatter = Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
-    signDisplay: '',
   });
   const formatterPercent = Intl.NumberFormat('pt-BR', {
     style: 'percent',
     maximumFractionDigits: 2,
-    signDisplay: 'always',
   });
   return (
     <div className="result-container">
