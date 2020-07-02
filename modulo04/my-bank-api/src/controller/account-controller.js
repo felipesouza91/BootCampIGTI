@@ -61,10 +61,23 @@ const AccountController = {
   },
 
   async privateAgencia(req, res) {
-    const result = await AccountShema.aggregate([]);
-    console.log(result);
-
-    return res.json(result);
+    const resultAgencia = await AccountShema.aggregate([
+      {
+        $group: {
+          _id: '$agencia',
+        },
+      },
+    ]);
+    let maxAccounts = [];
+    resultAgencia.forEach(({ _id }) => {
+      AccountShema.find({ agencia: _id })
+        .sort({ balance: -1 })
+        .then((result) => {
+          maxAccounts.push(result[0]);
+        });
+    });
+    console.log(maxAccounts);
+    return res.json(resultAgencia);
   },
 
   async save(req, res) {
