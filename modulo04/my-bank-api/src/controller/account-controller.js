@@ -60,6 +60,13 @@ const AccountController = {
     return res.json(result);
   },
 
+  async privateAgencia(req, res) {
+    const result = await AccountShema.aggregate([]);
+    console.log(result);
+
+    return res.json(result);
+  },
+
   async save(req, res) {
     const { agencia, conta, name, balance } = req.body;
     try {
