@@ -42,6 +42,24 @@ const AccountController = {
     return res.json(result);
   },
 
+  async highBalance(req, res) {
+    const { size } = req.body;
+    if (!size) {
+      return res.status(400).json({
+        error: 'Informe os campos obrigatorios: size',
+      });
+    }
+    const result = await AccountShema.find(
+      {},
+      { _id: 0, agencia: 1, conta: 1, balance: 1, name: 1 }
+    )
+      .limit(size)
+      .sort({ balance: -1, name: 1 });
+    console.log(result);
+
+    return res.json(result);
+  },
+
   async save(req, res) {
     const { agencia, conta, name, balance } = req.body;
     try {
