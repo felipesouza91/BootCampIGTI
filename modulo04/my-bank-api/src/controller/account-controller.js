@@ -15,8 +15,13 @@ const AccountController = {
       });
     }
     const result = await AccountShema.find({ agencia });
-    console.log(result);
-    return res.json(result);
+    if (result.length < 1) {
+      return res.json({ medium: 0 });
+    }
+    const total = result.reduce((total, item) => (total += item.balance), 0);
+    const medium = total / result.length;
+
+    return res.json({ medium });
   },
 
   async save(req, res) {
