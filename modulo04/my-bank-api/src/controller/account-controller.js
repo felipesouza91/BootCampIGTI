@@ -64,19 +64,33 @@ const AccountController = {
     const resultAgencia = await AccountShema.aggregate([
       {
         $group: {
-          _id: '$agencia',
+          _id: {
+            agencia: '$agencia',
+          },
+          maxValue: {
+            $max: '$balance',
+          },
         },
       },
-    ]);
-    let maxAccounts = [];
-    resultAgencia.forEach(({ _id }) => {
-      AccountShema.find({ agencia: _id })
-        .sort({ balance: -1 })
-        .then((result) => {
-          maxAccounts.push(result[0]);
-        });
+    ]).sort({ maxValue: -1, id: { agencia: 1 } });
+
+    const teste = await AccountShema.aggregate().project({
+      conta: {
+        $reduce: {
+          input: ['$conta'],
+          initialValue: {},
+          in: {
+            $cond: [
+              { $gt: ['$$this.balance', '$$value.balance'] },
+              '$$this', // If condition true ($$this - Current Object)
+              '$$value',
+            ],
+          },
+        },
+      },
     });
-    console.log(maxAccounts);
+
+    console.log(teste);
     return res.json(resultAgencia);
   },
 
