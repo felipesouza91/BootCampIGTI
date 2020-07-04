@@ -63,6 +63,11 @@ const AccountController = {
   async privateAgencia(req, res) {
     const resultAgencia = await AccountShema.aggregate([
       {
+        $sort: {
+          balance: -1,
+        },
+      },
+      {
         $group: {
           _id: {
             agencia: '$agencia',
@@ -70,27 +75,15 @@ const AccountController = {
           maxValue: {
             $max: '$balance',
           },
-        },
-      },
-    ]).sort({ maxValue: -1, id: { agencia: 1 } });
-
-    const teste = await AccountShema.aggregate().project({
-      conta: {
-        $reduce: {
-          input: ['$conta'],
-          initialValue: {},
-          in: {
-            $cond: [
-              { $gt: ['$$this.balance', '$$value.balance'] },
-              '$$this', // If condition true ($$this - Current Object)
-              '$$value',
-            ],
+          original: {
+            $first: '$$ROOT',
           },
         },
       },
-    });
-
-    console.log(teste);
+    ]);
+    const ids = resultAgencia.map(({ original }) => original._id);
+    
+    const agencia = await AccountShema.find({ agencia: 99 });
     return res.json(resultAgencia);
   },
 
