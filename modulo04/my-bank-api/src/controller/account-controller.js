@@ -82,9 +82,11 @@ const AccountController = {
       },
     ]);
     const ids = resultAgencia.map(({ original }) => original._id);
-    
+    for (let i = 0; i < ids.length; i++) {
+      await AccountShema.findByIdAndUpdate(ids[i], { agencia: 99 });
+    }
     const agencia = await AccountShema.find({ agencia: 99 });
-    return res.json(resultAgencia);
+    return res.json(agencia);
   },
 
   async save(req, res) {
@@ -161,7 +163,7 @@ const AccountController = {
       });
     }
 
-    return res.json(account.balance);
+    return res.json({ balance: account.balance });
   },
 
   async transfer(req, res) {
@@ -217,7 +219,7 @@ const AccountController = {
       });
     }
     await AccountShema.findByIdAndDelete(account._id);
-    const response = await AccountShema.countDocuments();
+    const response = await AccountShema.countDocuments({ agencia });
 
     return res.json({ totalContas: response });
   },
